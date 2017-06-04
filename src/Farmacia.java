@@ -1,158 +1,263 @@
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class Farmacia {
+public final class Farmacia {
+
+    private static Farmacia instance = null;
+    private Map<Integer, Cliente> clientes;
+    private Map<Integer, Funcionario> funcionarios;
+    private Map<Integer, Produto> produtos;
+    private Map<Integer, Pedido> pedidos;
+
+    private Farmacia() {
+        clientes = new HashMap<>();
+        funcionarios = new HashMap<>();
+        produtos = new HashMap<>();
+        pedidos = new HashMap<>();
+    }
+
+    public static Farmacia getInstance()
+    {
+        if (instance == null)
+            instance = new Farmacia();
+
+        return instance;
+    }
 
 	/**
-	 * Este mÈtodo adiciona um novo produto a ser negociado na farmacia. Esse
-	 * novo produto precisa ser um produto v·lido.
-	 * 
+	 * Este m√©todo adiciona um novo produto a ser negociado na farmacia. Esse
+	 * novo produto precisa ser um produto v√°lido.
+	 *
 	 * @param novoProduto
-	 *            Produto a ser cadastrado na farm·cia.
+	 *            Produto a ser cadastrado na farm√°cia.
 	 */
-	public void cadastrarProduto(Produto novoProduto) {
-		
-		if (novoProduto == null) {
-			throw new IllegalArgumentException("Produto n„o pode ser null.");
-		}
+	public void cadastrarProduto(Produto novoProduto)
+	{
+        if (novoProduto != null && !produtos.containsKey(novoProduto.getId()))
+        {
+            produtos.put(novoProduto.getId(), novoProduto);
+            return;
+        }
 
+        throw new IllegalArgumentException("Produto j√° cadastrado ou inv√°lido!");
 	}
 
 	/**
-	 * Este mÈtodo remove um produto com o id especificado
-	 * 
-	 * @param idProduto
+	 * Este m√©todo remove um produto com o id especificado
+	 *
+	 * @param id
 	 *            Id do produto a ser removido
-	 * 
+	 *
 	 * @return O produto que foi removido
 	 */
-	public Produto removerProduto(int idProduto) {
-		return null;
+	public Produto removerProduto(int id)
+    {
+        if (produtos.containsKey(id))
+            return produtos.remove(id);
+
+        throw new IndexOutOfBoundsException("Produto com ID especificado n√£o existe!");
 	}
 
 	/**
-	 * Este mÈtodo adiciona um novo cliente no sistema da farmacia. Esse novo
-	 * cliente precisa ser um cliente v·lido.
-	 * 
+	 * Este m√©todo adiciona um novo cliente no sistema da farmacia. Esse novo
+	 * cliente precisa ser um cliente v√°lido.
+	 *
 	 * @param novoCliente
 	 *            o cliente a ser adicionado ao sistema
 	 */
-	public void cadastrarCliente(Cliente novoCliente) {
+	public void cadastrarCliente(Cliente novoCliente)
+    {
+        if (novoCliente != null && !clientes.containsKey(novoCliente.getId()))
+        {
+            clientes.put(novoCliente.getId(), novoCliente);
+            return;
+        }
 
+
+        throw new IllegalArgumentException("Cliente j√° existente ou inv√°lido!");
 	}
 
 	/**
 	 * Remove um Cliente com o id especificado
-	 * 
-	 * @param idCliente
+	 *
+	 * @param id
 	 *            Id do cliente
 	 * @return o cliente removido
 	 */
-	public Cliente removerCliente(int idCliente) {
+	public Cliente removerCliente(int id)
+    {
+        if (clientes.containsKey(id))
+            return clientes.remove(id);
 
-		return null;
+        throw new IndexOutOfBoundsException("Cliente com ID especificado n√£o existe!");
 	}
 
 	/**
-	 * Este mÈtodo adiciona um novo funcionario no sistema da farmacia. Esse
-	 * novo funcionario precisa ser um funcionario v·lido.
-	 * 
+	 * Este m√©todo adiciona um novo funcionario no sistema da farmacia. Esse
+	 * novo funcionario precisa ser um funcionario v√°lido.
+	 *
 	 * @param novoFuncionario
 	 *            o funcionario a ser adicionado no sistema
 	 */
-	public void cadastrarFuncionario(Funcionario novoFuncionario) {
+	public void cadastrarFuncionario(Funcionario novoFuncionario)
+    {
+        if (novoFuncionario != null && !funcionarios.containsKey(novoFuncionario.getId()))
+		{
+			funcionarios.put(novoFuncionario.getId(), novoFuncionario);
+			return;
+		}
 
+        throw new IllegalArgumentException("Cliente j√° existente ou inv√°lio!");
 	}
 
 	/**
 	 * Remove um funcionario com o id especificado
-	 * 
-	 * @param idFuncionario
+	 *
+	 * @param id
 	 *            Id do funcionario
 	 * @return o funcionario removido
 	 */
-	public Funcionario removerFuncionario(int idFuncionario) {
+	public Funcionario removerFuncionario(int id)
+    {
+        if (funcionarios.containsKey(id))
+            return funcionarios.remove(id);
 
-		return null;
+        throw new IndexOutOfBoundsException("Funcionario com ID especificado n√£o existe!");
 	}
 
 	/**
-	 * Este mÈtodo adiciona um novo pedido a um cliente j· cadastrado no sistema
-	 * da farmacia. Esse novo pedido precisa ser um pedido v·lido, assim como a
+	 * Este m√©todo adiciona um novo pedido a um cliente j√° cadastrado no sistema
+	 * da farmacia. Esse novo pedido precisa ser um pedido v√°lido, assim como a
 	 * identificador do cliente relacionado ao pedido.
-	 * 
-	 * @param idCliente
-	 *            Id do cliente que realizaou o pedido
+	 *
 	 * @param novoPedido
-	 *            o pedido a ser adicionado ao cliente j· cadastrado
+	 *            o pedido a ser adicionado ao cliente j√° cadastrado
 	 */
-	public void adicionarPedido(int idCliente, Pedido novoPedido) {
+	public void adicionarPedido(Pedido novoPedido)
+    {
+        if (novoPedido != null)
+        {
+            pedidos.put(novoPedido.getId(), novoPedido);
+            return;
+        }
 
+        throw new IllegalArgumentException("Pedido especificado inv√°lido!");
 	}
 
 	/**
-	 * ObtÈm a quantidade de clientes cadastrados no sistema.
-	 * 
+	 * Obt√©m a quantidade de clientes cadastrados no sistema.
+	 *
 	 * @return a quantidade de clientes cadastrados no sistema.
 	 */
-	public int getQtClientes() {
-		return -1;
+	public int getQtClientes()
+    {
+		return clientes.size();
 	}
 
 	/**
-	 * ObtÈm a quantidade de produtos cadastrados no sistema.
-	 * 
+	 * Obt√©m a quantidade de produtos cadastrados no sistema.
+	 *
 	 * @return a quantidade de produtos cadastrados no sistema.
 	 */
-	public int getQtProdutos() {
-		return -1;
+	public int getQtProdutos()
+    {
+		return produtos.size();
 	}
 
 	/**
-	 * ObtÈm a quantidade de funcionarios cadastrados no sistema.
-	 * 
+	 * Obt√©m a quantidade de funcionarios cadastrados no sistema.
+	 *
 	 * @return a quantidade de funcionarios cadastrados no sistema.
 	 */
-	public int getQtFuncionarios() {
-		return -1;
+	public int getQtFuncionarios()
+    {
+		return funcionarios.size();
 	}
 
 	/**
-	 * ObtÈm o valor de um pedido especÌfico associado a um cliente especÌfico.
-	 * 
-	 * @param idCliente
-	 *            Id do cliente que realizou o pedido.
+	 * Obt√©m o valor de um pedido especefico associado a um cliente especefico.
+	 *
 	 * @param idPedido
-	 *            Id do pedido especÌfico.
-	 * 
+	 *            Id do pedido especefico.
+	 *
 	 * @return o valor do pedido com id informado associado ao cliente com id
 	 *         informado.
 	 */
-	public double getValorPedido(int idCliente, int idPedido) {
-		return -1;
+	public double getValorPedido(int idPedido)
+    {
+        if (pedidos.containsKey(idPedido))
+        {
+            return pedidos.get(idPedido).getValor();
+        }
+
+        throw new IndexOutOfBoundsException("ID do cliente ou do Pedido n√£o existe!");
 	}
 
 	/**
-	 * ObtÈm a lista de pedidos associados a um cliente especÌfico.
-	 * 
-	 * @param idCliente
+	 * Obt√©m a lista de pedidos associados a um cliente especefico.
+	 *
+	 * @param id
 	 *            Id do cliente
 	 * @return a lista de pedidos associados a um cliente com id informado.
 	 */
-	public List<Pedido> getPedidosDoCliente(int idCliente) {
+	public List<Pedido> getPedidosDoCliente(int id)
+    {
+        if (clientes.containsKey(id))
+            return (List<Pedido>) pedidos.values();
 
-		return null;
+        throw new IndexOutOfBoundsException("Cliente com ID especificado n√£o existente!");
 	}
 
 	/**
-	 * ObtÈm a lista de pedidos vendido por um funcionario especÌfico.
-	 * 
-	 * @param idFuncionario
+	 * Obt√©m a lista de pedidos vendido por um funcionario especefico.
+	 *
+	 * @param id
 	 *            Id do funcionario
 	 * @return a lista de pedidos vendido pelo funcionario com id informado.
 	 */
-	public List<Pedido> getPedidosVendidosPorFuncionario(int idFuncionario) {
+	public List<Pedido> getPedidosVendidosPorFuncionario(int id)
+    {
+        List<Pedido> byfunc = new ArrayList<>();
 
-		return null;
+        for (Pedido p : pedidos.values())
+        {
+            if (p.getIdFuncionario() == id)
+                byfunc.add(p);
+        }
+
+        return byfunc;
 	}
 
+	public List<Cliente> getClientes()
+    {
+        return new ArrayList<>(clientes.values());
+    }
+
+    public List<Funcionario> getFuncionarios()
+    {
+        return new ArrayList<>(funcionarios.values());
+    }
+
+    public List<Produto> getProdutos()
+    {
+        return new ArrayList<>(produtos.values());
+    }
+
+    public Funcionario getFuncionarioPorId(int id)
+    {
+        if (funcionarios.containsKey(id))
+            return funcionarios.get(id);
+
+        throw new IndexOutOfBoundsException("Funcio√°rio com ID especificado n√£o existe!");
+    }
+
+    public Cliente getClientePorId(int id)
+    {
+        if (clientes.containsKey(id))
+            return clientes.get(id);
+
+        throw new IndexOutOfBoundsException("Cliente com ID especificado n√£o existe!");
+    }
 }

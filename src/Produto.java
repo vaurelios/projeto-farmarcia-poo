@@ -1,20 +1,16 @@
 
-public class Produto {
+public class Produto extends AutoRandomID {
 
-    private int id;
     private String nome;
     private String fabricante;
     private String fornecedor;
-    private String valor;
+    private double valor = .0d;
 
-    public Produto()
+    public Produto(String nome, String fabricante, String fornecedor)
     {
-
-    }
-
-    public int getId()
-    {
-        return id;
+        this.nome = nome;
+        this.fabricante = fabricante;
+        this.fornecedor = fornecedor;
     }
 
     public void setId(int id)
@@ -52,12 +48,12 @@ public class Produto {
         this.fornecedor = fornecedor;
     }
 
-    public String getValor()
+    public double getValor()
     {
         return valor;
     }
 
-    public void setValor(String valor)
+    public void setValor(double valor)
     {
         this.valor = valor;
     }

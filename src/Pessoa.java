@@ -1,59 +1,55 @@
+import java.util.concurrent.ThreadLocalRandom;
 
-public class Pessoa {
+public class Pessoa extends AutoRandomID {
 
-    private int _id;
-    private String _nome;
-    private String _cpf;
-    private String _endereco;
-    private String _telefone;
+    private String nome;
+    private String cpf;
+    private String endereco;
+    private String telefone;
 
-    public int getId()
+    public Pessoa(String nome, String cpf)
     {
-        return _id;
-    }
-
-    public void setId(int id)
-    {
-        this._id = id;
+        this.nome = nome;
+        this.cpf = cpf;
     }
 
     public String getNome()
     {
-        return _nome;
+        return nome;
     }
 
     public void setNome(String nome)
     {
-        this._nome = nome;
+        this.nome = nome;
     }
 
     public String getCpf()
     {
-        return _cpf;
+        return cpf;
     }
 
     public void setCpf(String cpf)
     {
-        this._cpf = cpf;
+        this.cpf = cpf;
     }
 
     public String getEndereco()
     {
-        return _endereco;
+        return endereco;
     }
 
     public void setEndereco(String endereco)
     {
-        this._endereco = endereco;
+        this.endereco = endereco;
     }
 
     public String getTelefone()
     {
-        return _telefone;
+        return telefone;
     }
 
     public void setTelefone(String telefone)
     {
-        this._telefone = telefone;
+        this.telefone = telefone;
     }
 }

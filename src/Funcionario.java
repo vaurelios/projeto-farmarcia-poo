@@ -1,20 +1,20 @@
 
 public class Funcionario extends Pessoa {
 
-    private double _salario;
+    private double salario = .0d;
 
-    public Funcionario()
+    public Funcionario(String nome, String cpf)
     {
-
+        super(nome, cpf);
     }
 
     public double getSalario()
     {
-        return _salario;
+        return salario;
     }
 
     public void setSalario(double salario)
     {
-        this._salario = salario;
+        this.salario = salario;
     }
 }
