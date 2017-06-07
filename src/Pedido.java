@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -31,12 +33,14 @@ class ProdutoQuantidade {
 public class Pedido {
 
     private int id;
-    private Map<Integer, ProdutoQuantidade> produtos;
+    private List<ProdutoQuantidade> produtos;
     private int idCliente;
     private int idFuncionario;
 
     public Pedido(int idCliente, int idFuncionario)
     {
+        produtos = new ArrayList<>();
+        
         this.id = ThreadLocalRandom.current().nextInt(1, 1000 + 1);
         this.idCliente = idCliente;
         this.idFuncionario = idFuncionario;
@@ -61,11 +65,40 @@ public class Pedido {
     {
         double valor = .0d;
 
-        for (ProdutoQuantidade pq : produtos.values())
+        for (ProdutoQuantidade pq : produtos)
         {
             valor += pq.getQuantidade() * pq.getProduto().getValor();
         }
 
         return valor;
+    }
+
+    public List<ProdutoQuantidade> getProdutos()
+    {
+        return produtos;
+    }
+
+    public void addProduto(Produto produto, int quant)
+    {
+        ProdutoQuantidade pq = null;
+
+        for (ProdutoQuantidade prodq : produtos)
+        {
+            if (prodq.getProduto().getId() == produto.getId())
+            {
+                pq = prodq;
+                break;
+            }
+        }
+
+        if (pq == null)
+        {
+            pq = new ProdutoQuantidade(produto, quant);
+
+            produtos.add(pq);
+        } else
+        {
+            pq.setQuantquantidade(pq.getQuantidade() + quant);
+        }
     }
 }

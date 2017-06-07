@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public final class Farmacia {
 
@@ -205,7 +206,7 @@ public final class Farmacia {
 	public List<Pedido> getPedidosDoCliente(int id)
     {
         if (clientes.containsKey(id))
-            return (List<Pedido>) pedidos.values();
+            return pedidos.values().stream().filter(p -> p.getIdCliente() == id).collect(Collectors.toList());
 
         throw new IndexOutOfBoundsException("Cliente com ID especificado não existente!");
 	}
@@ -219,16 +220,15 @@ public final class Farmacia {
 	 */
 	public List<Pedido> getPedidosVendidosPorFuncionario(int id)
     {
-        List<Pedido> byfunc = new ArrayList<>();
+        pedidos.values().forEach(p -> System.out.println(p.toString()));
 
-        for (Pedido p : pedidos.values())
-        {
-            if (p.getIdFuncionario() == id)
-                byfunc.add(p);
-        }
+        return pedidos.values().stream().filter(p -> p.getIdFuncionario() == id).collect(Collectors.toList());
+    }
 
-        return byfunc;
-	}
+    public List<Pedido> getPedidos()
+    {
+        return new ArrayList<>(pedidos.values());
+    }
 
 	public List<Cliente> getClientes()
     {

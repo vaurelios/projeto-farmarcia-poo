@@ -65,7 +65,7 @@ public final class MenuUI {
                 listarProdutos();
                 break;
             case 4:
-                // listarPedidos();
+                listarPedidos();
                 break;
             case 5:
             default:
@@ -124,6 +124,81 @@ public final class MenuUI {
                     prod.getFornecedor(),
                     prod.getValor());
         }
+    }
+
+    private void listarPedidos()
+    {
+        System.out.println(" - 1: Listar por Clientes");
+        System.out.println(" - 2: Listar por Funcionários");
+        System.out.println(" - 3: Listar Todos");
+        System.out.println(" - 4: Retornar");
+
+        switch (promptInt("Selecione uma opção [4]: ", 4))
+        {
+            case 1:
+                listarPedidosPorCliente();
+                break;
+            case 2:
+                listarPedidosPorFuncionario();
+                break;
+            case 3:
+                listarTodosPedidos();
+                break;
+            case 4:
+            default:
+                break;
+        }
+    }
+
+    private void listarPedidosPorCliente()
+    {
+        listarClientes();
+
+        int id = promptInt("Digite um ID (-1 Para Voltar) [-1]: ", -1);
+
+        if (id == -1) return;
+
+        Farmacia.getInstance().getPedidosDoCliente(id).forEach(p -> prettyPrintPedido(p));
+
+        listarPedidosPorCliente();
+    }
+
+    private void listarPedidosPorFuncionario()
+    {
+        listarFuncionarios();
+
+        int id = promptInt("Digite um ID (-1 Para Voltar) [-1]: ", -1);
+
+        if (id == -1) return;
+
+        Farmacia.getInstance().getPedidosVendidosPorFuncionario(id).forEach(p -> prettyPrintPedido(p));
+
+        listarPedidosPorFuncionario();
+    }
+
+    private void listarTodosPedidos()
+    {
+        Farmacia.getInstance().getPedidos().forEach(p -> prettyPrintPedido(p));
+    }
+
+    private void prettyPrintPedido(Pedido p)
+    {
+        System.out.printf("Pedido: %d | Cliente: %d | Funcionário: %d\n",
+                p.getId(), p.getIdCliente(), p.getIdFuncionario());
+
+        System.out.println(" - Produtos:");
+        System.out.printf(" -- %-4s | %-20s | %-20s | %-20s | %-10s | %-3s | %-7s\n",
+                "ID", "Nome", "Fabricante", "Fornecedor", "Valor Und.", "Qtd", "Total");
+        p.getProdutos().forEach(pq -> {
+            System.out.printf(" -- %-4d | %-20s | %-20s | %-20s | %-10.2f | %-3d | %-7.2f\n",
+                    pq.getProduto().getId(),
+                    pq.getProduto().getNome(),
+                    pq.getProduto().getFabricante(),
+                    pq.getProduto().getFornecedor(),
+                    pq.getProduto().getValor(),
+                    pq.getQuantidade(),
+                    pq.getQuantidade() * pq.getProduto().getValor());
+        });
     }
 
     private void criar()
