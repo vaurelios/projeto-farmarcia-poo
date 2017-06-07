@@ -1,6 +1,4 @@
-import java.util.concurrent.ThreadLocalRandom;
-
-public class Pessoa extends AutoRandomID {
+public class Pessoa {
 
     private String nome;
     private String cpf;

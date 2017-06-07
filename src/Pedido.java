@@ -32,6 +32,8 @@ class ProdutoQuantidade {
 
 public class Pedido {
 
+    private static int last_id = 0;
+
     private int id;
     private List<ProdutoQuantidade> produtos;
     private int idCliente;
@@ -39,8 +41,10 @@ public class Pedido {
 
     public Pedido(int idCliente, int idFuncionario)
     {
+        this.id = ++last_id;
+
         produtos = new ArrayList<>();
-        
+
         this.id = ThreadLocalRandom.current().nextInt(1, 1000 + 1);
         this.idCliente = idCliente;
         this.idFuncionario = idFuncionario;

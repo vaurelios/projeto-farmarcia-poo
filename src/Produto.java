@@ -1,6 +1,8 @@
+public class Produto {
 
-public class Produto extends AutoRandomID {
+    private static int last_id = 0;
 
+    private int id;
     private String nome;
     private String fabricante;
     private String fornecedor;
@@ -8,14 +10,15 @@ public class Produto extends AutoRandomID {
 
     public Produto(String nome, String fabricante, String fornecedor)
     {
+        this.id = ++last_id;
         this.nome = nome;
         this.fabricante = fabricante;
         this.fornecedor = fornecedor;
     }
 
-    public void setId(int id)
+    public int getId()
     {
-        this.id = id;
+        return id;
     }
 
     public String getNome()
