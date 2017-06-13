@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 
 class ProdutoQuantidade {
 
@@ -45,7 +43,6 @@ public class Pedido {
 
         produtos = new ArrayList<>();
 
-        this.id = ThreadLocalRandom.current().nextInt(1, 1000 + 1);
         this.idCliente = idCliente;
         this.idFuncionario = idFuncionario;
     }

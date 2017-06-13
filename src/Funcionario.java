@@ -1,4 +1,3 @@
-
 public class Funcionario extends Pessoa {
 
     private static int last_id = 0;

@@ -189,7 +189,8 @@ public final class MenuUI {
         System.out.println(" - Produtos:");
         System.out.printf(" -- %-4s | %-20s | %-20s | %-20s | %-10s | %-3s | %-7s\n",
                 "ID", "Nome", "Fabricante", "Fornecedor", "Valor Und.", "Qtd", "Total");
-        p.getProdutos().forEach(pq -> {
+        p.getProdutos().forEach(pq ->
+        {
             System.out.printf(" -- %-4d | %-20s | %-20s | %-20s | %-10.2f | %-3d | %-7.2f\n",
                     pq.getProduto().getId(),
                     pq.getProduto().getNome(),
@@ -206,9 +207,10 @@ public final class MenuUI {
         System.out.println(" - 1: Criar Funcionário");
         System.out.println(" - 2: Criar Cliente");
         System.out.println(" - 3: Criar Produto");
+        System.out.println(" - 4: Criar Pedido");
         System.out.println(" - 4: Retornar");
 
-        switch (promptInt("Selecione uma opção [4]: ", 4))
+        switch (promptInt("Selecione uma opção [5]: ", 5))
         {
             case 1:
                 criarFuncionario();
@@ -219,6 +221,9 @@ public final class MenuUI {
             case 3:
                 criarProduto();
             case 4:
+                criarPedido();
+                break;
+            case 5:
             default:
                 return;
         }
@@ -267,6 +272,33 @@ public final class MenuUI {
         Produto prod = new Produto(nome, fabricante, fornecedor);
         prod.setValor(valor);
         Farmacia.getInstance().cadastrarProduto(prod);
+    }
+
+    private void criarPedido()
+    {
+        System.out.println("Entre com os dados do novo Pedido...");
+
+        listarClientes();
+        int idCliente = promptInt("Digite um ID (-1 Para Voltar) [-1]: ", -1);
+        if (idCliente == -1) return;
+
+        listarFuncionarios();
+        int idFuncionario = promptInt("Digite um ID (-1 Para Voltar) [-1]: ", -1);
+        if (idFuncionario == -1) return;
+
+        Pedido pedido = new Pedido(idCliente, idFuncionario);
+
+        int idProd = 0;
+        while (idProd != -1)
+        {
+            if ((idProd = promptInt("Digite um ID (-1 Para Terminar) [-1]: ", -1)) != -1)
+            {
+                int quant = promptInt("Digite uma Quantidade [1]: ", 1);
+                pedido.addProduto(Farmacia.getInstance().getProdutoPorId(idProd), quant);
+            }
+        }
+
+        Farmacia.getInstance().adicionarPedido(pedido);
     }
 
     private void modificar()
