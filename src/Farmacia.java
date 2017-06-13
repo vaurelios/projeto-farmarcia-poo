@@ -140,6 +140,14 @@ public final class Farmacia {
         throw new IllegalArgumentException("Pedido especificado inválido!");
     }
 
+    public Pedido removerPedido(int id)
+    {
+        if (pedidos.containsKey(id))
+            return pedidos.remove(id);
+
+        return null;
+    }
+
     /**
      * Obtém a quantidade de clientes cadastrados no sistema.
      *
@@ -256,5 +264,13 @@ public final class Farmacia {
             return produtos.get(id);
 
         throw new IndexOutOfBoundsException("Produto com ID especificado não existe!");
+    }
+
+    public Pedido getPedidoPorId(int id)
+    {
+        if (pedidos.containsKey(id))
+            return pedidos.get(id);
+
+        throw new IndexOutOfBoundsException("Pedido com ID especificado não existe!");
     }
 }

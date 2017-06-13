@@ -309,7 +309,9 @@ public final class MenuUI {
         System.out.println(" - 4: Apagar Cliente");
         System.out.println(" - 5: Alterar Produto");
         System.out.println(" - 6: Apagar Produto");
-        System.out.println(" - 7: Retornar");
+        System.out.println(" - 7: Alterar Pedido");
+        System.out.println(" - 8: Apagar Pedido");
+        System.out.println(" - 9: Retornar");
 
         switch (promptInt("Selecione uma opção [7]: ", 7))
         {
@@ -326,12 +328,16 @@ public final class MenuUI {
                 removerCliente();
                 break;
             case 5:
-                // alterarAluno();
+                alterarProduto();
                 break;
             case 6:
                 removerProduto();
                 break;
             case 7:
+                alterarPedido();
+            case 8:
+                removerPedido();
+            case 9:
             default:
                 return;
         }
@@ -431,17 +437,113 @@ public final class MenuUI {
         removerCliente();
     }
 
+    private void alterarProduto()
+    {
+        listarProdutos();
+
+        int id = promptInt("Digite um ID (-1 Para Voltar) [-1]: ", -1);
+        if (id == -1) return;
+
+        String nome = promptString("Digite o Nome: ", "");
+        String fabricante = promptString("Digite o Fabricante: ", "");
+        String fornecedor = promptString("Digite o Fornecedor: ", "");
+        double valor = promptDouble("Digite o Valor: ", Double.MIN_VALUE);
+
+        Produto prod = Farmacia.getInstance().getProdutoPorId(id);
+
+        if (!stringNullOrEmpty(nome))
+            prod.setNome(nome);
+
+        if (!stringNullOrEmpty(fabricante))
+            prod.setFabricante(fabricante);
+
+        if (!stringNullOrEmpty(fornecedor))
+            prod.setFornecedor(fornecedor);
+
+        if (valor != Double.MIN_VALUE)
+            prod.setValor(valor);
+
+        System.out.println("Produto atualizado!");
+    }
+
     private void removerProduto()
     {
         listarProdutos();
 
         int id = promptInt("Digite um ID (-1 Para Voltar) [-1]: ", -1);
-
         if (id == -1) return;
 
         Farmacia.getInstance().removerProduto(id);
 
         removerProduto();
+    }
+
+    private void alterarPedido()
+    {
+        listarTodosPedidos();
+
+        int id = promptInt("Digite um ID (-1 Para Voltar) [-1]: ", -1);
+        if (id == -1) return;
+
+        Pedido ped = Farmacia.getInstance().getPedidoPorId(id);
+
+        System.out.println(" - 1: Adicionar Produto ao Pedido");
+        System.out.println(" - 2: Alterar quantidade de Produto no Pedido");
+        System.out.println(" - 3: Sair");
+        switch (promptInt("Selecione uma opção[3]: ", 3))
+        {
+            case 1:
+            {
+                listarProdutos();
+
+                int idProduto = promptInt("Digite um ID (-1 Para Voltar) [-1]: ", -1);
+                if (idProduto == -1) break;
+
+                Produto prod = Farmacia.getInstance().getProdutoPorId(idProduto);
+
+                int quantidade = promptInt("Digite a quantidade [1]: ", 1);
+
+                ped.addProduto(prod, quantidade);
+                break;
+            }
+            case 2:
+            {
+                listarProdutos();
+
+                while (true)
+                {
+                    int idProduto = promptInt("Digite um ID (-1 Para Voltar) [-1]: ", -1);
+                    if (idProduto == -1) break;
+
+                    int quantidade = promptInt("Digite a quantidade [1]: ", 1);
+
+                    if (ped.setQuantidadeProduto(idProduto, quantidade))
+                    {
+                        break;
+                    }
+
+                    System.out.println("Pedido não contém o produto específicado!");
+                }
+                break;
+            }
+            case 3:
+            default:
+                break;
+        }
+
+        System.out.println("Pedido atualizado!");
+    }
+
+    private void removerPedido()
+    {
+        listarTodosPedidos();
+
+        int id = promptInt("Digite um ID (-1 Para Voltar) [-1]: ", -1);
+        if (id == -1) return;
+
+        Farmacia.getInstance().removerPedido(id);
+
+        removerPedido();
     }
 
     private int promptInt(String msg, int def)

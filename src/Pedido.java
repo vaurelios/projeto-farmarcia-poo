@@ -102,4 +102,28 @@ public class Pedido {
             pq.setQuantquantidade(pq.getQuantidade() + quant);
         }
     }
+
+    /**
+     * Altera a quantidade de determinado produto no pedido.
+     *
+     * @param idProduto Id do Produto especefico.
+     * @param quant nova quantidade
+     * @return true se bem sucedido, false se pedido não contém produto.
+     */
+    public boolean setQuantidadeProduto(int idProduto, int quant)
+    {
+        ProdutoQuantidade prodq = null;
+
+        for (ProdutoQuantidade pq : produtos)
+        {
+            if (pq.getProduto().getId() == idProduto)
+                prodq = pq;
+        }
+
+        if (prodq == null) return false;
+
+        prodq.setQuantquantidade(quant);
+
+        return true;
+    }
 }
