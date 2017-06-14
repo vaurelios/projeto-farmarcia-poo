@@ -363,6 +363,7 @@ public final class MenuUI {
 
         Pedido pedido = new Pedido(idCliente, idFuncionario);
 
+        listarProdutos();
         int idProd = 0;
         while (idProd != -1)
         {
@@ -448,7 +449,7 @@ public final class MenuUI {
         listarFuncionarios();
 
         int id = promptInt("Digite o Id do Funcionario que deseja remover: (-1 Para Voltar) [-1]:", -1);
-        
+
 
         if (id == -1) return;
 
