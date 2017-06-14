@@ -21,23 +21,27 @@ public final class MenuUI {
 
     public void run()
     {
-        System.out.println(" - 1: Listar Objetos");
-        System.out.println(" - 2: Criar Objetos");
-        System.out.println(" - 3: Modificar Objetos");
-        System.out.println(" - 4: Sair");
+        System.out.println(" - 1: Clientes");
+        System.out.println(" - 2: Funcionarios");
+        System.out.println(" - 3: Produtos");
+        System.out.println(" - 4: Pedidos");
+        System.out.println(" - 5: Sair");
 
-        switch (promptInt("Selecione uma opção [4]: ", 4))
+        switch (promptInt("Selecione uma opcao [5]: ", 5))
         {
             case 1:
-                listar();
+                mCliente();
                 break;
             case 2:
-                criar();
+                mFuncionario();
                 break;
             case 3:
-                modificar();
+                mProdutos();
                 break;
             case 4:
+                mPedidos();
+                break;
+            case 5:
             default:
                 return;
         }
@@ -45,40 +49,115 @@ public final class MenuUI {
         run();
     }
 
-    private void listar()
-    {
-        System.out.println(" - 1: Listar Clientes");
-        System.out.println(" - 2: Listar Funcionários");
-        System.out.println(" - 3: Listar Produtos");
-        System.out.println(" - 4: Listar Pedidos");
-        System.out.println(" - 5: Retornar");
 
-        switch (promptInt("Selecione uma opção [5]: ", 5))
+
+
+    private void mCliente()
+    {
+        System.out.println(" - 1: Cadastrar Cliente");
+        System.out.println(" - 2: Remover Cliente");
+        System.out.println(" - 3: Historico de Pedidos");
+        System.out.println(" - 4: Voltar");
+
+        switch (promptInt("Selecione uma opcao [4]:" ,4))
         {
             case 1:
-                listarClientes();
+                criarCliente();
                 break;
             case 2:
-                listarFuncionarios();
+                removerCliente();
                 break;
             case 3:
-                listarProdutos();
-                break;
+                listarPedidosPorCliente();
             case 4:
-                listarPedidos();
-                break;
-            case 5:
             default:
                 return;
         }
 
-        listar();
+        mCliente();
     }
+
+
+    private void mFuncionario()
+    {
+        System.out.println(" - 1: Cadastrar Funcionario");
+        System.out.println(" - 2: Remover Funcionario");
+        System.out.println(" - 3: Historico de Pedidos");
+        System.out.println(" - 4: Voltar");
+
+
+        switch (promptInt("Selecione uma opcao [4]:" ,4))
+        {
+            case 1:
+                criarFuncionario();
+                break;
+            case 2:
+                removerFuncionario();
+                break;
+            case 3:
+                listarPedidos();
+                break;
+            case 4:
+            default:
+                return;
+        }
+
+        mFuncionario();
+    }
+
+
+    private void mProdutos()
+
+    {
+        System.out.println(" - 1: Adicionar Produtos");
+        System.out.println(" - 2: Remover Produtos");
+        System.out.println(" - 3: Voltar");
+
+
+        switch (promptInt("Selecione uma opcao [3]:" ,3))
+        {
+            case 1:
+                criarProduto();
+                break;
+            case 2:
+                removerProduto();
+            case 3:
+            default:
+                return;
+        }
+
+        mProdutos();
+    }
+
+
+    private void mPedidos()
+    {
+        System.out.println(" - 1: Adicionar Pedidos");
+        System.out.println(" - 2: Remover Pedidos");
+        System.out.println(" - 3: Voltar");
+
+
+        switch (promptInt("Selecione uma opcao [3]:" ,3))
+        {
+            case 1:
+                criarPedido();
+                break;
+            case 2:
+                removerPedido();
+            case 3:
+            default:
+                return;
+        }
+
+        mPedidos();
+    }
+
+
 
     private void listarClientes()
     {
         System.out.printf("%-4s | %-25s | %-14s | %-30s | %-15s\n",
-                "ID", "Nome", "CPF", "Endereço", "Telefone");
+                "ID", "Nome", "CPF", "Endereco", "Telefone");
 
 
         for (Cliente cliente : Farmacia.getInstance().getClientes())
@@ -95,7 +174,7 @@ public final class MenuUI {
     private void listarFuncionarios()
     {
         System.out.printf("%-4s | %-22s | %-14s | %-23s | %-15s | %-7s\n",
-                "ID", "Nome", "CPF", "Endereço", "Telefone", "Salário");
+                "ID", "Nome", "CPF", "Endereco", "Telefone", "Salario");
 
         for (Funcionario func : Farmacia.getInstance().getFuncionarios())
         {
@@ -128,23 +207,19 @@ public final class MenuUI {
 
     private void listarPedidos()
     {
-        System.out.println(" - 1: Listar por Clientes");
-        System.out.println(" - 2: Listar por Funcionários");
-        System.out.println(" - 3: Listar Todos");
-        System.out.println(" - 4: Retornar");
+        System.out.println(" - 1: Listar por Funcionários");
+        System.out.println(" - 2: Listar Todos");
+        System.out.println(" - 3: Retornar");
 
-        switch (promptInt("Selecione uma opção [4]: ", 4))
+        switch (promptInt("Selecione uma opção [3]: ", 3))
         {
             case 1:
-                listarPedidosPorCliente();
-                break;
-            case 2:
                 listarPedidosPorFuncionario();
                 break;
-            case 3:
+            case 2:
                 listarTodosPedidos();
                 break;
-            case 4:
+            case 3:
             default:
                 break;
         }
@@ -236,9 +311,9 @@ public final class MenuUI {
         System.out.println("Entre com os dados do novo Funcionário...");
         String nome = promptString("Entre com Nome: ", "");
         String cpf = promptString("Entre com o CPF: ", "");
-        String endereco = promptString("Entre com o Endereço: ", "");
+        String endereco = promptString("Entre com o Endereco: ", "");
         String telefone = promptString("Entre com o Telefone: ", "");
-        double salario = promptDouble("Entre com o salário: ", 0.0);
+        double salario = promptDouble("Entre com o salario: ", 0.0);
 
         Funcionario func = new Funcionario(nome, cpf);
         func.setEndereco(endereco);
@@ -252,7 +327,7 @@ public final class MenuUI {
         System.out.println("Entre com os dados do novo Cliente...");
         String nome = promptString("Entre com Nome: ", "");
         String cpf = promptString("Entre com o CPF: ", "");
-        String endereco = promptString("Entre com o Endereço: ", "");
+        String endereco = promptString("Entre com o Endereco: ", "");
         String telefone = promptString("Entre com o Telefone: ", "");
 
         Cliente clien = new Cliente(nome, cpf);
@@ -301,49 +376,6 @@ public final class MenuUI {
         Farmacia.getInstance().adicionarPedido(pedido);
     }
 
-    private void modificar()
-    {
-        System.out.println(" - 1: Alterar Funcionário");
-        System.out.println(" - 2: Apagar Funcionário");
-        System.out.println(" - 3: Alterar Cliente");
-        System.out.println(" - 4: Apagar Cliente");
-        System.out.println(" - 5: Alterar Produto");
-        System.out.println(" - 6: Apagar Produto");
-        System.out.println(" - 7: Alterar Pedido");
-        System.out.println(" - 8: Apagar Pedido");
-        System.out.println(" - 9: Retornar");
-
-        switch (promptInt("Selecione uma opção [7]: ", 7))
-        {
-            case 1:
-                alterarFuncionario();
-                break;
-            case 2:
-                removerFuncionario();
-                break;
-            case 3:
-                alterarCliente();
-                break;
-            case 4:
-                removerCliente();
-                break;
-            case 5:
-                alterarProduto();
-                break;
-            case 6:
-                removerProduto();
-                break;
-            case 7:
-                alterarPedido();
-            case 8:
-                removerPedido();
-            case 9:
-            default:
-                return;
-        }
-
-        modificar();
-    }
 
     private void alterarFuncionario()
     {
@@ -357,9 +389,9 @@ public final class MenuUI {
         System.out.println("Digite os dados, enter para não modificar...");
         String nome = promptString("Entre com Nome: ", "");
         String cpf = promptString("Entre com o CPF: ", "");
-        String endereco = promptString("Entre com o Endereço: ", "");
+        String endereco = promptString("Entre com o Endereco: ", "");
         String telefone = promptString("Entre com o Telefone: ", "");
-        double salario = promptDouble("Entre com o salário: ", Double.MIN_VALUE);
+        double salario = promptDouble("Entre com o salario: ", Double.MIN_VALUE);
 
         Funcionario func = Farmacia.getInstance().getFuncionarioPorId(id);
 
@@ -393,7 +425,7 @@ public final class MenuUI {
         System.out.println("Digite os dados, enter para não modificar...");
         String nome = promptString("Entre com Nome: ", "");
         String cpf = promptString("Entre com o CPF: ", "");
-        String endereco = promptString("Entre com o Endereço: ", "");
+        String endereco = promptString("Entre com o Endereco: ", "");
         String telefone = promptString("Entre com o Telefone: ", "");
 
         Cliente clien = Farmacia.getInstance().getClientePorId(id);
@@ -415,7 +447,8 @@ public final class MenuUI {
     {
         listarFuncionarios();
 
-        int id = promptInt("Digite um ID (-1 Para Voltar) [-1]: ", -1);
+        int id = promptInt("Digite o Id do Funcionario que deseja remover: (-1 Para Voltar) [-1]:", -1);
+        
 
         if (id == -1) return;
 
@@ -631,4 +664,7 @@ public final class MenuUI {
 
         return true;
     }
+
+
+
 }
